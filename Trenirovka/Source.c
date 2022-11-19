@@ -1,27 +1,34 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <windows.h>
 #include <stdio.h>
-
 #define PATH L"Trenirovka_DLL.dll"
 
-typedef int(_cdecl* forReadData)(LPWSTR);
 
+typedef int(_cdecl* ProstPotoki)(int, int,int);
 typedef int(_cdecl* Prost)(int,int);
-int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
+int main()
 {
+	system("chcp 1251>nul");
 	HINSTANCE hMyDLL;
 	if ((hMyDLL = LoadLibrary(PATH)) == NULL) return 1;
-	forReadData myFun = (forReadData)GetProcAddress(hMyDLL, "MyFun");
+	int a, b,c;
+	printf("Введите первое число: ");
+	scanf_s("%d", &a);
+	printf("Введите второе число: ");
+	scanf_s("%d", &b);
 	
-
 	Prost prost = (Prost)GetProcAddress(hMyDLL, "Prtostoe");
-	int rez = prost(1, 35);
-
-	LPWSTR str = calloc(100, sizeof(WCHAR));
-
-	swprintf(str, 100, L"Результат равен %d", rez);
-	myFun(str,L"Результат");
-
+	int rez = prost(a, b);
+	printf("Результат равен %d",rez);
 	FreeLibrary(hMyDLL);
+
+	HINSTANCE hMyDLL1;
+	if ((hMyDLL1 = LoadLibrary(PATH)) == NULL) return 1;
+	printf("Введите количество потоков: ");
+	scanf_s("%d", &c);
+	ProstPotoki prostpotoki=(ProstPotoki)GetProcAddress(hMyDLL1, "Show");
+	prostpotoki(a, b,c);
+	/*printf("Результат равен %d", rezul);*/
+	FreeLibrary(hMyDLL1);
 	return 0;
 }
