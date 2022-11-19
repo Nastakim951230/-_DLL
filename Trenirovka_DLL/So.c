@@ -34,8 +34,32 @@ int MyFun(LPWSTR str, LPWSTR zag)
     MessageBox(NULL, str, zag, MB_OK);
     return 0;
 }
-__declspec(dllimport) int Summ(int a, int b);
-int Summ(int a, int b)
+__declspec(dllimport) int Prtostoe(int a, int b);
+
+int Prtostoe(int a, int b)
 {
-    return a + b;
+    int chek = 0;
+    int kol = 0;
+    for (int i = a; i <= b; i++)
+    {
+        for (int j = 2; j <= b; j++)
+        {
+            if ((i % j == 0)&&(i != j))
+            {
+                chek = 1;
+                break;
+            }
+
+        }
+        if (chek == 0)
+        {
+            kol++;
+        }
+        else
+        {
+            chek = 0;
+        }
+    }
+    return kol;
 }
+
